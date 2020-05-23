@@ -98,7 +98,7 @@ public class AddPupilController implements Initializable {
                 || emailTxt.getText().equals("")) {
             error.setVisible(true);
         }
-        if (valitadeEmail(emailTxt.getText().toString())== false) {
+        if (valitadeEmail(emailTxt.getText().toString()) == false) {
 
             errorEmail.setVisible(true);
 
@@ -108,11 +108,11 @@ public class AddPupilController implements Initializable {
             String date = datePicker.getValue().toString();
             String email = emailTxt.getText();
 
-  pupil = new Pupils(name, date, email, id_class);
+            pupil = new Pupils(name, date, email, id_class);
             /*FOSUser u = new FOSUser(a.getId(), noma.getText(), noma.getText(), maila.getText(),
-        maila.getText(), (byte)1, null, enc.encryptPassword(villea.getText()), null, null, null, "a:1:{i:0;s:16:\"ROLE_FOURNISSEUR\";}");  */
+            maila.getText(), (byte)1, null, enc.encryptPassword(villea.getText()), null, null, null, "a:1:{i:0;s:16:\"ROLE_FOURNISSEUR\";}");  */
             FOSUser u = new FOSUser(name, name, email,
-                    email, (byte) 1, null, name, java.sql.Date.valueOf(LocalDate.now()), null, java.sql.Date.valueOf(LocalDate.now()), "a:1:{i:0;s:10:\"ROLE_PUPILS\";}");
+            email, (byte) 1, null, name, java.sql.Date.valueOf(LocalDate.now()), null, java.sql.Date.valueOf(LocalDate.now()), "a:1:{i:0;s:10:\"ROLE_PUPILS\";}");
 
             new ServicesFOS().ajouterUser(u);
             pupil.setId_user(new ServicesFOS().getUserByUsername(u.getUserName()).getId());
@@ -126,7 +126,7 @@ public class AddPupilController implements Initializable {
 
             btAdd.getScene().setRoot(root);
             error.setVisible(false);
-          errorEmail.setVisible(false);
+            errorEmail.setVisible(false);
         }
     }
 
@@ -162,14 +162,14 @@ public class AddPupilController implements Initializable {
     }
 
     private boolean valitadeEmail(String email) {
-    /*    Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9.-]*@[a-zA-Z]+([.][a-zA-Z]+)+");
+        /*    Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9.-]*@[a-zA-Z]+([.][a-zA-Z]+)+");
         Matcher m = p.matcher(emailTxt.getText());
         if (m.find() && m.group().equals(emailTxt.getText())) {
             return true;
         } else {
             return false;
         }*/
-            boolean isValid = false;
+        boolean isValid = false;
         try {
             // Create InternetAddress object and validated the supplied
             // address which is this case is an email address.

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Parent;
 import tn.esprit.binder.Iservices.IservicesPupils;
 import tn.esprit.binder.entities.Pupils;
 import tn.esprit.binder.entities.TimeTable;
@@ -159,4 +160,17 @@ public class ServicesPupils implements IservicesPupils<Pupils>{
         }
         return pupilsList;
     }
+    
+   
+    public void updatePupilsP(Integer id_pupil,Integer id_parent) throws SQLException {
+        ste = cnx.createStatement();
+        String req = "update pupils set id_parent = '"
+                +id_parent
+               
+                + "' where id = '"
+                + id_pupil + "'";
+        if (ste.executeUpdate(req) == 1) {
+            System.out.println("modification effectué");
+        }     }
+
 }

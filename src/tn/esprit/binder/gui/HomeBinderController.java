@@ -77,6 +77,8 @@ import tn.esprit.binder.Iservices.club.IClubService;
 import tn.esprit.binder.Iservices.club.IParentService;
 import tn.esprit.binder.entities.Classes;
 import tn.esprit.binder.entities.Course;
+import tn.esprit.binder.entities.FOSUser;
+import tn.esprit.binder.entities.Pupils;
 import tn.esprit.binder.entities.Subject;
 import tn.esprit.binder.entities.TimeTable;
 import tn.esprit.binder.entities.clubs.activity;
@@ -87,6 +89,8 @@ import tn.esprit.binder.entities.grades.Exams;
 import tn.esprit.binder.entities.grades.Grade;
 import tn.esprit.binder.services.CourseService;
 import tn.esprit.binder.services.ServicesClasses;
+import tn.esprit.binder.services.ServicesFOS;
+import tn.esprit.binder.services.ServicesPupils;
 import tn.esprit.binder.services.SubjectService;
 import tn.esprit.binder.services.club.ActivityService;
 import tn.esprit.binder.services.club.ClubService;
@@ -318,21 +322,18 @@ public class HomeBinderController implements Initializable {
     private Button goToActivity;
     @FXML
     private Button goToParent;
-    public  List<String> listA;
-        public  List<String> listAD;
-        
-     public  List<String> listP;
-    
-    
-     private IParentService annonceServiceP;
-     ObservableList<parent> oblistP = FXCollections.observableArrayList();
-     ParentService esP=new ParentService();
-     
-     
-      
-     private IActivityService annonceServiceA;
-     ObservableList<activity> oblistA = FXCollections.observableArrayList();
-     ActivityService esA=new ActivityService();
+    public List<String> listA;
+    public List<String> listAD;
+
+    public List<String> listP;
+
+    private IParentService annonceServiceP;
+    ObservableList<parent> oblistP = FXCollections.observableArrayList();
+    ParentService esP = new ParentService();
+
+    private IActivityService annonceServiceA;
+    ObservableList<activity> oblistA = FXCollections.observableArrayList();
+    ActivityService esA = new ActivityService();
     @FXML
     private Button goToCour;
     @FXML
@@ -399,19 +400,48 @@ public class HomeBinderController implements Initializable {
     private Button btnAdd2;
     @FXML
     private TextField tfSearch2;
-          
+
     private IServiceCourse annonceServiceC;
-     ObservableList<Course> oblistC = FXCollections.observableArrayList();
-     CourseService esC=new CourseService();
-     
-         
+    ObservableList<Course> oblistC = FXCollections.observableArrayList();
+    CourseService esC = new CourseService();
+
     private IServiceSubject annonceService2;
     ObservableList<Subject> oblist2 = FXCollections.observableArrayList();
-    SubjectService ss=new SubjectService();
-    
+    SubjectService ss = new SubjectService();
+
     @FXML
     private TableColumn<Course, String> subjectW;
     public List<String> sub;
+    @FXML
+    private ComboBox<String> pupilCom;
+    public List<String> listPu;
+    @FXML
+    private Button btGotoTeacher;
+    @FXML
+    private AnchorPane anchorTeacher;
+    @FXML
+    private TextField rechercheBarT;
+    @FXML
+    private TextField tfNameT;
+    @FXML
+    private TextField tfMail;
+    @FXML
+    private TextField tfPhone;
+    @FXML
+    private TableView<?> tabT;
+    @FXML
+    private TableColumn<?, ?> nameT;
+    @FXML
+    private TableColumn<?, ?> mailT;
+    @FXML
+    private TableColumn<?, ?> phoneT;
+    @FXML
+    private TableColumn<?, ?> specialtyT;
+    @FXML
+    private TextField tfSpec;
+    @FXML
+    private TextField tfPassword;
+
     public HomeBinderController() {
         cnx = MyConnection.getInstance().getCnx();
     }
@@ -447,50 +477,46 @@ public class HomeBinderController implements Initializable {
             CID.setVisible(false);
             AID.setVisible(false);
             PID.setVisible(false);
-               annonceServiceP = new ParentService();
-       oblistP = FXCollections.observableArrayList(esP.getAll());
+            annonceServiceP = new ParentService();
+            oblistP = FXCollections.observableArrayList(esP.getAll());
 
-        ObservableList observableListP = FXCollections.observableArrayList(oblistP);
-        tabP.setItems(observableListP);
-        //idA.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameP.setCellValueFactory(new PropertyValueFactory<>("name"));
-        mailP.setCellValueFactory(new PropertyValueFactory<>("mail"));
-        phoneP.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        
-        
-        
-        //activity
-         annonceServiceA = new ActivityService();
-       oblistA = FXCollections.observableArrayList(esA.getAll());
+            ObservableList observableListP = FXCollections.observableArrayList(oblistP);
+            tabP.setItems(observableListP);
+            //idA.setCellValueFactory(new PropertyValueFactory<>("id"));
+            nameP.setCellValueFactory(new PropertyValueFactory<>("name"));
+            mailP.setCellValueFactory(new PropertyValueFactory<>("mail"));
+            phoneP.setCellValueFactory(new PropertyValueFactory<>("phone"));
+            listPu = new ParentService().readAllP();
+            pupilCom.setItems(FXCollections.observableArrayList(listPu));
 
-        ObservableList observableListA = FXCollections.observableArrayList(oblistA);
-        tabA.setItems(observableListA);
-        //idA.setCellValueFactory(new PropertyValueFactory<>("id"));
-        aboutA.setCellValueFactory(new PropertyValueFactory<>("about"));
-        durationA.setCellValueFactory(new PropertyValueFactory<>("duration"));
-        locationA.setCellValueFactory(new PropertyValueFactory<>("location"));
-        
-         dateA.setCellValueFactory(new PropertyValueFactory<>("dateA"));
-         clubA.setCellValueFactory(new PropertyValueFactory<>("clubAC"));
-         listA=  new ActivityService().readAllT();
-         clubAJ.setItems(FXCollections.observableArrayList(listA));
-         
-         
-         //club
-         
-         q.setLoad(0);
-        q.loadProperty().addListener(new ChangeListener<Object>() {
-            @Override
-            public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
-                pi.progressProperty().bind(q.loadProperty());//unidirectional bnding
-            }
+            //activity
+            annonceServiceA = new ActivityService();
+            oblistA = FXCollections.observableArrayList(esA.getAll());
 
-        });
-        specialtyCom.setItems(list);
-        
-        
-        
-        annonceService = new ClubService();
+            ObservableList observableListA = FXCollections.observableArrayList(oblistA);
+            tabA.setItems(observableListA);
+            //idA.setCellValueFactory(new PropertyValueFactory<>("id"));
+            aboutA.setCellValueFactory(new PropertyValueFactory<>("about"));
+            durationA.setCellValueFactory(new PropertyValueFactory<>("duration"));
+            locationA.setCellValueFactory(new PropertyValueFactory<>("location"));
+
+            dateA.setCellValueFactory(new PropertyValueFactory<>("dateA"));
+            clubA.setCellValueFactory(new PropertyValueFactory<>("clubAC"));
+            listA = new ActivityService().readAllT();
+            clubAJ.setItems(FXCollections.observableArrayList(listA));
+
+            //club
+            q.setLoad(0);
+            q.loadProperty().addListener(new ChangeListener<Object>() {
+                @Override
+                public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
+                    pi.progressProperty().bind(q.loadProperty());//unidirectional bnding
+                }
+
+            });
+            specialtyCom.setItems(list);
+
+            annonceService = new ClubService();
             oblist = FXCollections.observableArrayList(es.getAll());
 
             ObservableList observableListC = FXCollections.observableArrayList(oblist);
@@ -512,18 +538,15 @@ public class HomeBinderController implements Initializable {
         rbsupdix.setToggleGroup(group);
 
         //samar ---------------------------
-        
-
-       //
+        //
         anchorChour.setVisible(false);
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
-        
 
         // TODO
         //wael---------------------------------------------------------------------------------------------
-                annonceServiceC = new CourseService();
+        annonceServiceC = new CourseService();
         oblistC = FXCollections.observableArrayList(esC.showAll());
 
         ObservableList observableList = FXCollections.observableArrayList(oblistC);
@@ -531,19 +554,19 @@ public class HomeBinderController implements Initializable {
         subjectW.setCellValueFactory(new PropertyValueFactory<>("subject"));
         content.setCellValueFactory(new PropertyValueFactory<>("content"));
         teacher.setCellValueFactory(new PropertyValueFactory<>("teacher"));
-      
+
         try {
             // TODO
             sub = new CourseService().readAllSubject();
         } catch (SQLException ex) {
             Logger.getLogger(HomeBinderController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-            cbox.setItems(FXCollections.observableArrayList(sub));
-            wv.setVisible(false);
-            /////////
-            
-                    annonceService2 = new SubjectService();
+
+        cbox.setItems(FXCollections.observableArrayList(sub));
+        wv.setVisible(false);
+        /////////
+
+        annonceService2 = new SubjectService();
         oblist2 = FXCollections.observableArrayList(ss.showAllSub());
 
         ObservableList observableListS = FXCollections.observableArrayList(oblist2);
@@ -551,7 +574,7 @@ public class HomeBinderController implements Initializable {
         nameColomn.setCellValueFactory(new PropertyValueFactory<>("name"));
         teacherscolomn.setCellValueFactory(new PropertyValueFactory<>("teachers"));
         classescolomn.setCellValueFactory(new PropertyValueFactory<>("classes"));
-         // TODO
+        // TODO
     }
 
     @FXML
@@ -859,7 +882,7 @@ public class HomeBinderController implements Initializable {
         CID.setVisible(false);
         AID.setVisible(false);
         PID.setVisible(false);
-         anchorChour.setVisible(false);
+        anchorChour.setVisible(false);
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
@@ -874,7 +897,7 @@ public class HomeBinderController implements Initializable {
         CID.setVisible(false);
         AID.setVisible(false);
         PID.setVisible(false);
-         anchorChour.setVisible(false);
+        anchorChour.setVisible(false);
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
@@ -1216,7 +1239,7 @@ public class HomeBinderController implements Initializable {
         CID.setVisible(true);
         AID.setVisible(false);
         PID.setVisible(false);
-         anchorChour.setVisible(false);
+        anchorChour.setVisible(false);
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
@@ -1224,20 +1247,19 @@ public class HomeBinderController implements Initializable {
 
     @FXML
     private void rechercherA(ActionEvent event) {
-          if (!rechercheBarA.getText().isEmpty()) {
+        if (!rechercheBarA.getText().isEmpty()) {
             tabA.setVisible(true);
             annonceServiceA = new ActivityService();
             List<activity> myList = annonceServiceA.rechercheActivity(rechercheBarA.getText());
             ObservableList<activity> observableListA = FXCollections.observableArrayList();
 
-           // idA.setCellValueFactory(new PropertyValueFactory<>("id"));
+            // idA.setCellValueFactory(new PropertyValueFactory<>("id"));
             aboutA.setCellValueFactory(new PropertyValueFactory<>("about"));
-             locationA.setCellValueFactory(new PropertyValueFactory<>("location"));
-             durationA.setCellValueFactory(new PropertyValueFactory<>("duration"));
-            
-             dateA.setCellValueFactory(new PropertyValueFactory<>("dateA"));
-             clubA.setCellValueFactory(new PropertyValueFactory<>("clubAC"));
+            locationA.setCellValueFactory(new PropertyValueFactory<>("location"));
+            durationA.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
+            dateA.setCellValueFactory(new PropertyValueFactory<>("dateA"));
+            clubA.setCellValueFactory(new PropertyValueFactory<>("clubAC"));
 
             myList.forEach(e -> {
 
@@ -1256,72 +1278,61 @@ public class HomeBinderController implements Initializable {
 
     @FXML
     private void supprimerA(ActionEvent event) {
-           esA= new ActivityService();
+        esA = new ActivityService();
         int index = tabA.getSelectionModel().getSelectedItem().getId();
         //System.out.println(index);
         esA.deleteActivity(index);
-       AfficherAllA();
+        AfficherAllA();
     }
 
     @FXML
     private void modifierA(ActionEvent event) {
         annonceServiceA = new ActivityService();
-         try {
-             activity aa = tabA.getSelectionModel().getSelectedItem();
-              System.out.println(aa.getId()+"551");
-           //  int id_c1 = Integer.parseInt(aa.getId_c());
-                         
-        int id=aa.getId();
+        try {
+            activity aa = tabA.getSelectionModel().getSelectedItem();
+            System.out.println(aa.getId() + "551");
+            //  int id_c1 = Integer.parseInt(aa.getId_c());
+
+            int id = aa.getId();
             String about = aboutAJ.getText();
-            
+
             String duration = durationAJ.getText();
             String location = locationAJ.getText();
-                       // String club = clubAJ.getValue();
-             String name =clubAJ.getValue();
-                        
+            // String club = clubAJ.getValue();
+            String name = clubAJ.getValue();
+
             LocalDate date = dp.getValue();
-            
-             ActivityService sl = new ActivityService();
-             
-             int clubId = sl.getClubId(name);
 
+            ActivityService sl = new ActivityService();
 
-            
-            
-           activity a = new activity(id,clubId,about,duration,location,date.toString(),name);
-           ActivityService s2 = new ActivityService();
+            int clubId = sl.getClubId(name);
+
+            activity a = new activity(id, clubId, about, duration, location, date.toString(), name);
+            ActivityService s2 = new ActivityService();
             ActivityService s3 = new ActivityService();
-            
-            activity l = new activity(clubId,about,duration,location,date.toString(),name);
+
+            activity l = new activity(clubId, about, duration, location, date.toString(), name);
             s3.deleteActivitymodified(id);
             s2.addActivitymodify(l);
-             AfficherAllA();
-            
-            
-            
-            
+            AfficherAllA();
+
             try {
-            Connection con =(Connection) MyConnection.getInstance().getCnx();
-            
-            ResultSet rs = con.createStatement().executeQuery("select * from activity");
-          while(rs.next()){
-          oblistA.add(new activity(rs.getInt("id"),rs.getInt("id_club"),rs.getString("about"),rs.getString("duration"),rs.getString("location"),rs.getString("dateA"),rs.getString("clubAC")));}
-        } catch (SQLException ex) {
-            Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-          
+                Connection con = (Connection) MyConnection.getInstance().getCnx();
+
+                ResultSet rs = con.createStatement().executeQuery("select * from activity");
+                while (rs.next()) {
+                    oblistA.add(new activity(rs.getInt("id"), rs.getInt("id_club"), rs.getString("about"), rs.getString("duration"), rs.getString("location"), rs.getString("dateA"), rs.getString("clubAC")));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             tab.setItems(oblist);
-            
-            
-        }
-            
-           
-         catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-         
-         
-       
+
     }
 
     @FXML
@@ -1337,17 +1348,16 @@ public class HomeBinderController implements Initializable {
 
     @FXML
     private void rechercherP(ActionEvent event) {
-          if (!rechercheBarP.getText().isEmpty()) {
+        if (!rechercheBarP.getText().isEmpty()) {
             tabP.setVisible(true);
             annonceServiceP = new ParentService();
             List<parent> myList = annonceServiceP.rechercheParent(rechercheBarP.getText());
             ObservableList<parent> observableList = FXCollections.observableArrayList();
 
-           // idA.setCellValueFactory(new PropertyValueFactory<>("id"));
-              nameP.setCellValueFactory(new PropertyValueFactory<>("name"));
-              mailP.setCellValueFactory(new PropertyValueFactory<>("mail"));
-              phoneP.setCellValueFactory(new PropertyValueFactory<>("phone"));
-
+            // idA.setCellValueFactory(new PropertyValueFactory<>("id"));
+            nameP.setCellValueFactory(new PropertyValueFactory<>("name"));
+            mailP.setCellValueFactory(new PropertyValueFactory<>("mail"));
+            phoneP.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
             myList.forEach(e -> {
 
@@ -1366,59 +1376,81 @@ public class HomeBinderController implements Initializable {
 
     @FXML
     private void ajouterP(ActionEvent event) throws SQLException {
-        
-        if(validateMail()&& validatePhone()){
-          //String about =aboutAJ.getText();
-        String name =nameAj.getText();
-         String phone =phoneAJ.getText();
-          
-          String mail = mailAJ.getText();
-         
-           
-       
-              
-       
-         ParentService sl = new ParentService();
-            parent p = new parent(name,mail,phone);
+        /*
+          String name = namePupTxt.getText();
+            String date = datePicker.getValue().toString();
+            String email = emailTxt.getText();
+
+            pupil = new Pupils(name, date, email, id_class);
+            //FOSUser u = new FOSUser(a.getId(), noma.getText(), noma.getText(), maila.getText(),
+            maila.getText(), (byte)1, null, enc.encryptPassword(villea.getText()), null, null, null, "a:1:{i:0;s:16:\"ROLE_FOURNISSEUR\";}");  
+            FOSUser u = new FOSUser(name, name, email,
+            email, (byte) 1, null, name, java.sql.Date.valueOf(LocalDate.now()), null, java.sql.Date.valueOf(LocalDate.now()), "a:1:{i:0;s:10:\"ROLE_PUPILS\";}");
+            new ServicesFOS().ajouterUser(u);
+            pupil.setId_user(new ServicesFOS().getUserByUsername(u.getUserName()).getId());
+            new ServicesPupils().addPupils(pupil);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("gestionPupil.fxml"));
+            Parent root = loader.load();
+            GestionPupilController ugc = loader.getController();
+            ugc.setGrade(gr);
+            btAdd.getScene().setRoot(root);
+            error.setVisible(false);
+          errorEmail.setVisible(false);
+         */
+        if (validateMail() && validatePhone()) {
+            //String about =aboutAJ.getText();
+            String name = nameAj.getText();
+            String phone = phoneAJ.getText();
+
+            String mail = mailAJ.getText();
+            String pupilname = pupilCom.getValue();
+            parent p = new parent(name, mail, phone);
+            FOSUser u = new FOSUser(name, name, mail,
+                    mail, (byte) 1, null, name, java.sql.Date.valueOf(LocalDate.now()), null, java.sql.Date.valueOf(LocalDate.now()), "a:1:{i:0;s:10:\"ROLE_PUPILS\";}");
+            new ServicesFOS().ajouterUser(u);
+            p.setId_user(new ServicesFOS().getUserByUsername(u.getUserName()).getId());
+
+            ParentService sl = new ParentService();
+            int pupilId = sl.getPupilId(pupilname);
+            System.out.println(pupilId);
             sl.addParent(p);
+            int idm=new ParentService().getParentByUsername(name, mail).getId();
+            System.out.println(idm+"llllllllll");
+            new ServicesPupils().updatePupilsP(pupilId, idm);
             AfficherAllP();
+
         }
     }
 
     @FXML
     private void modifierP(ActionEvent event) {
-        
-          annonceServiceP = new ParentService();
-         try {
-             parent aa = tabP.getSelectionModel().getSelectedItem();
-              System.out.println(aa.getId()+"551");
-           //  int id_c1 = Integer.parseInt(aa.getId_c());
-                         
-        int id=aa.getId();
+
+        annonceServiceP = new ParentService();
+        try {
+            parent aa = tabP.getSelectionModel().getSelectedItem();
+            System.out.println(aa.getId() + "551");
+            //  int id_c1 = Integer.parseInt(aa.getId_c());
+
+            int id = aa.getId();
             String name = nameAj.getText();
-            
+
             String mail = mailAJ.getText();
             String phone = phoneAJ.getText();
-                       
-                        
-            
 
+            String pupilname = pupilCom.getValue();
 
-            
-            
-           parent a = new parent(name, mail, phone);
-           ParentService s2 = new ParentService();
+            ParentService sl = new ParentService();
+            int pupilId = sl.getPupilId(pupilname);
+            parent a = new parent(name, mail, phone, pupilId);
+            ParentService s2 = new ParentService();
             ParentService s3 = new ParentService();
-            
-            parent l = new parent(name,mail,phone);
+
+            parent l = new parent(name, mail, phone, pupilId);
             s3.deleteParentmodified(id);
             s2.addParentmodify(l);
-             AfficherAllP();
-            
-            
-            
-            
-           /* try {
+            AfficherAllP();
+
+            /* try {
             Connection con =(Connection) MyConnection.getInstance().getCnx();
             
             ResultSet rs = con.createStatement().executeQuery("select * from parent");
@@ -1428,27 +1460,21 @@ public class HomeBinderController implements Initializable {
           } catch (SQLException ex) {
             Logger.getLogger(ParentFormController.class.getName()).log(Level.SEVERE, null, ex);
         }*/
-          
             tabP.setItems(oblistP);
-            
-            
-        }
-            
-           
-         catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-         
-         
+
     }
 
     @FXML
     private void supprimerP(ActionEvent event) {
-         esP= new ParentService();
+        esP = new ParentService();
         int index = tabP.getSelectionModel().getSelectedItem().getId();
         //System.out.println(index);
         esP.deleteParent(index);
-       AfficherAllP();
+        AfficherAllP();
     }
 
     @FXML
@@ -1460,7 +1486,7 @@ public class HomeBinderController implements Initializable {
         CID.setVisible(false);
         AID.setVisible(true);
         PID.setVisible(false);
-         anchorChour.setVisible(false);
+        anchorChour.setVisible(false);
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
@@ -1475,60 +1501,47 @@ public class HomeBinderController implements Initializable {
         CID.setVisible(false);
         AID.setVisible(false);
         PID.setVisible(true);
-         anchorChour.setVisible(false);
+        anchorChour.setVisible(false);
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
     }
-    
-    
-    
-    
-    private boolean validateMail(){
-     Pattern p =Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+");
+
+    private boolean validateMail() {
+        Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+");
         Matcher m = p.matcher(mailAJ.getText());
-        if(m.find() && m.group().equals(mailAJ.getText())){
-        return true;
-                }
-        else{
+        if (m.find() && m.group().equals(mailAJ.getText())) {
+            return true;
+        } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("validate your mail");
             alert.setHeaderText(null);
             alert.setContentText("please enter a valid mail");
             alert.showAndWait();
             return false;
-            
+
         }
-        
-        
-        
-   
-       
-                }
-    
-    
-     private boolean validatePhone(){
-     Pattern p =Pattern.compile("(5)?[0-9]{8}");
+
+    }
+
+    private boolean validatePhone() {
+        Pattern p = Pattern.compile("(5)?[0-9]{8}");
         Matcher m = p.matcher(phoneAJ.getText());
-        if(m.find() && m.group().equals(phoneAJ.getText())){
-        return true;
-                }
-        else{
+        if (m.find() && m.group().equals(phoneAJ.getText())) {
+            return true;
+        } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("validate your phone");
             alert.setHeaderText(null);
             alert.setContentText("please enter a valid phone number");
             alert.showAndWait();
             return false;
-            
-        }
-     
-    
 
-}
-     
-     
-       private void AfficherAllP() {
+        }
+
+    }
+
+    private void AfficherAllP() {
 
         annonceServiceP = new ParentService();
         oblistP = FXCollections.observableArrayList(esP.getAll());
@@ -1538,138 +1551,116 @@ public class HomeBinderController implements Initializable {
         //idA.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameP.setCellValueFactory(new PropertyValueFactory<>("name"));
         mailP.setCellValueFactory(new PropertyValueFactory<>("mail"));
-         phoneP.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        phoneP.setCellValueFactory(new PropertyValueFactory<>("phone"));
     }
 
     @FXML
     private void ajouterA(ActionEvent event) throws SQLException {
-         if(validateDuration()){
-        
-         String about = aboutAJ.getText();
-        
-        String duration =durationAJ.getText();
-         String location =locationAJ.getText();
-        
-          
-          LocalDate date =dp.getValue();
-          // String name =clubAJ.getValue();
-          String name = clubAJ.getValue();
-           
-           
-              
-       
-         ActivityService sl = new ActivityService();
-         //int clubId ;
-         int clubId = sl.getClubId(name);
+        if (validateDuration()) {
+
+            String about = aboutAJ.getText();
+
+            String duration = durationAJ.getText();
+            String location = locationAJ.getText();
+
+            LocalDate date = dp.getValue();
+            // String name =clubAJ.getValue();
+            String name = clubAJ.getValue();
+
+            ActivityService sl = new ActivityService();
+            //int clubId ;
+            int clubId = sl.getClubId(name);
             System.out.println(name);
-           
-           activity l = new activity(clubId,about,duration,location,date.toString(),name);
-           sl.addActivity(l);
-             AfficherAllA();
-            
-            
-         
-    
 
-            
-            listAD=  new ActivityService().readAllA();
-      // List <String> listAD=  new ActivityService().readAllA();
-     // List<String> to = new ActivityService().readAllA();
+            activity l = new activity(clubId, about, duration, location, date.toString(), name);
+            sl.addActivity(l);
+            AfficherAllA();
 
-        
-            
-      // Recipient's email ID needs to be mentioned. private static final String EMAIL_TO = "jberisamar2@gmail.com, binderschools@gmail.com";
-    
-      
-       //final String to ="jberisamar2@gmail.com";
-      // Sender's email ID needs to be mentioned
-      String from = "binderschools@gmail.com";//change accordingly
-      final String username = "binder";//change accordingly
-      final String password = "binder123";//change accordingly
-      //final String EMAIL_TO = "jberisamar2@gmail.com, binderschools@gmail.com";
-      String emails="";
-      
-      for(String mail : listAD ){
-        emails+=mail+",";
-    }
-      System.out.println(emails);
-      
-      emails = emails.substring(0,emails.length()-2);
-   
-   
-    
-      
-      
+            listAD = new ActivityService().readAllA();
+            // List <String> listAD=  new ActivityService().readAllA();
+            // List<String> to = new ActivityService().readAllA();
 
-      // Assuming you are sending email through relay.jangosmtp.net
-      String host = "smtp.gmail.com";
+            // Recipient's email ID needs to be mentioned. private static final String EMAIL_TO = "jberisamar2@gmail.com, binderschools@gmail.com";
+            //final String to ="jberisamar2@gmail.com";
+            // Sender's email ID needs to be mentioned
+            String from = "binderschools@gmail.com";//change accordingly
+            final String username = "binder";//change accordingly
+            final String password = "binder123";//change accordingly
+            //final String EMAIL_TO = "jberisamar2@gmail.com, binderschools@gmail.com";
+            String emails = "";
 
-      Properties props = new Properties();
-      props.put("mail.smtp.auth", "true");
-      props.put("mail.smtp.starttls.enable", "true");
-      props.put("mail.smtp.host", host);
-      props.put("mail.smtp.port", "587");
+            for (String mail : listAD) {
+                emails += mail + ",";
+            }
+            System.out.println(emails);
 
-      // Get the Session object.
-       Session session= Session.getInstance(props, new javax.mail.Authenticator() {
-            @Override
-            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-                return new javax.mail.PasswordAuthentication(from, password);
-            }          
-        });
+            emails = emails.substring(0, emails.length() - 2);
 
-      try {
-          
-          
-         // Create a default MimeMessage object.
-         Message message = new MimeMessage(session);
+            // Assuming you are sending email through relay.jangosmtp.net
+            String host = "smtp.gmail.com";
 
-         // Set From: header field of the header.
-         message.setFrom(new InternetAddress(from));
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", host);
+            props.put("mail.smtp.port", "587");
 
-         // Set To: header field of the header.
-message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(emails, false));
-         // Set Subject: header field
-         message.setSubject("Testing Subject");
-
-         // Now set the actual message
-         message.setText(l.message());
-
-         // Send message
-         Transport.send(message);
-          
-
-         System.out.println("Sent message successfully....");
-
-      } catch (MessagingException e) {
-            throw new RuntimeException(e);
-      }
-         
-        }
-         
-}
-    
-     private boolean validateDuration(){
-        Pattern p =Pattern.compile("[0-9]+");
-        Matcher m = p.matcher(durationAJ.getText());
-        if(m.find() && m.group().equals(durationAJ.getText())){
-        return true;
+            // Get the Session object.
+            Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+                @Override
+                protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                    return new javax.mail.PasswordAuthentication(from, password);
                 }
-        else{
+            });
+
+            try {
+
+                // Create a default MimeMessage object.
+                Message message = new MimeMessage(session);
+
+                // Set From: header field of the header.
+                message.setFrom(new InternetAddress(from));
+
+                // Set To: header field of the header.
+                message.setRecipients(Message.RecipientType.TO,
+                        InternetAddress.parse(emails, false));
+                // Set Subject: header field
+                message.setSubject("Testing Subject");
+
+                // Now set the actual message
+                message.setText(l.message());
+
+                // Send message
+                Transport.send(message);
+
+                System.out.println("Sent message successfully....");
+
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+    }
+
+    private boolean validateDuration() {
+        Pattern p = Pattern.compile("[0-9]+");
+        Matcher m = p.matcher(durationAJ.getText());
+        if (m.find() && m.group().equals(durationAJ.getText())) {
+            return true;
+        } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("validate the duration");
             alert.setHeaderText(null);
             alert.setContentText("please enter a validate duration");
             alert.showAndWait();
             return false;
-            
+
         }
-       
-                }
-     
-     
-     private void AfficherAllA() {
+
+    }
+
+    private void AfficherAllA() {
 
         annonceServiceA = new ActivityService();
         oblistA = FXCollections.observableArrayList(esA.getAll());
@@ -1678,32 +1669,27 @@ message.setRecipients(Message.RecipientType.TO,
         tabA.setItems(observableList);
         //idA.setCellValueFactory(new PropertyValueFactory<>("id"));
         aboutA.setCellValueFactory(new PropertyValueFactory<>("about"));
-       
+
         locationA.setCellValueFactory(new PropertyValueFactory<>("location"));
-          System.out.println(locationA.toString()) ;
-        
-         durationA.setCellValueFactory(new PropertyValueFactory<>("duration"));
-        
-         dateA.setCellValueFactory(new PropertyValueFactory<>("dateA"));
-         clubA.setCellValueFactory(new PropertyValueFactory<>("clubAC"));
-     
-        
+        System.out.println(locationA.toString());
 
-      
-       
+        durationA.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
-}
+        dateA.setCellValueFactory(new PropertyValueFactory<>("dateA"));
+        clubA.setCellValueFactory(new PropertyValueFactory<>("clubAC"));
+
+    }
 
     @FXML
     private void goToCourOnClick(ActionEvent event) {
-                anchorHome.setVisible(false);
+        anchorHome.setVisible(false);
         anchorClassGestion.setVisible(false);
         listexams.setVisible(false);
         listgrades.setVisible(false);
         CID.setVisible(false);
         AID.setVisible(false);
         PID.setVisible(false);
-         anchorChour.setVisible(true);
+        anchorChour.setVisible(true);
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
@@ -1711,14 +1697,14 @@ message.setRecipients(Message.RecipientType.TO,
 
     @FXML
     private void goToSubjectOnClick(ActionEvent event) {
-                anchorHome.setVisible(false);
+        anchorHome.setVisible(false);
         anchorClassGestion.setVisible(false);
         listexams.setVisible(false);
         listgrades.setVisible(false);
         CID.setVisible(false);
         AID.setVisible(false);
         PID.setVisible(false);
-         anchorChour.setVisible(false);
+        anchorChour.setVisible(false);
         anchorSubject.setVisible(true);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
@@ -1726,14 +1712,14 @@ message.setRecipients(Message.RecipientType.TO,
 
     @FXML
     private void goToAbscenseOnClick(ActionEvent event) {
-                anchorHome.setVisible(false);
+        anchorHome.setVisible(false);
         anchorClassGestion.setVisible(false);
         listexams.setVisible(false);
         listgrades.setVisible(false);
         CID.setVisible(false);
         AID.setVisible(false);
         PID.setVisible(false);
-         anchorChour.setVisible(false);
+        anchorChour.setVisible(false);
         anchorSubject.setVisible(false);
         anchorAb.setVisible(true);
         anchorNotif.setVisible(false);
@@ -1741,14 +1727,14 @@ message.setRecipients(Message.RecipientType.TO,
 
     @FXML
     private void goToNotificationOnClick(ActionEvent event) {
-                anchorHome.setVisible(false);
+        anchorHome.setVisible(false);
         anchorClassGestion.setVisible(false);
         listexams.setVisible(false);
         listgrades.setVisible(false);
         CID.setVisible(false);
         AID.setVisible(false);
         PID.setVisible(false);
-         anchorChour.setVisible(false);
+        anchorChour.setVisible(false);
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(true);
@@ -1756,40 +1742,36 @@ message.setRecipients(Message.RecipientType.TO,
 
     @FXML
     private void updateCourse(ActionEvent event) throws SQLException {
-        
-         annonceServiceC = new CourseService();
+
+        annonceServiceC = new CourseService();
         Course aa = tvCourses.getSelectionModel().getSelectedItem();
-        System.out.println(aa.getId()+"551");
-        int idc=aa.getId();
+        System.out.println(aa.getId() + "551");
+        int idc = aa.getId();
         //String subjec = tfus.getText();
         String subjec = cbox.getSelectionModel().getSelectedItem();
         String conten = tfuc.getText();
         String teache = tfut.getText();
-        Course a = new Course(idc,subjec,conten,teache);
+        Course a = new Course(idc, subjec, conten, teache);
         annonceServiceC.updateCourse(a);
         try {
-            Connection con =(Connection) MyConnection.getInstance().getCnx();
-            
+            Connection con = (Connection) MyConnection.getInstance().getCnx();
+
             ResultSet rs = con.createStatement().executeQuery("select * from course");
-            while(rs.next()){
-                oblistC.add(new Course(rs.getInt("id"),rs.getString("subject"),rs.getString("content"),rs.getString("teacher")));}
+            while (rs.next()) {
+                oblistC.add(new Course(rs.getInt("id"), rs.getString("subject"), rs.getString("content"), rs.getString("teacher")));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(HomeBinderController.class.getName()).log(Level.SEVERE, null, ex);
         }
         tvCourses.setItems(oblistC);
-         
+
         showAll();
-        
-        
-        
-        
-        
-        
+
     }
 
     @FXML
     private void deleteCourse(ActionEvent event) {
-               esC= new CourseService();
+        esC = new CourseService();
         int index = tvCourses.getSelectionModel().getSelectedItem().getId();
         esC.deleteCourse(index);
         showAll();
@@ -1797,63 +1779,63 @@ message.setRecipients(Message.RecipientType.TO,
 
     @FXML
     private void addCourse(ActionEvent event) {
-                if ((cbox.getSelectionModel().isEmpty()) || (tfuc.getText().isEmpty())){
-            JOptionPane.showMessageDialog(null,"subject and content shouldn't be empty");
-        
+        if ((cbox.getSelectionModel().isEmpty()) || (tfuc.getText().isEmpty())) {
+            JOptionPane.showMessageDialog(null, "subject and content shouldn't be empty");
+
         } else {
-            
-        CourseService cs = new CourseService();
-        Course c = new Course();
-        //c.setSubject(tfus.getText());
-        c.setSubject(cbox.getSelectionModel().getSelectedItem());
-        c.setContent(tfuc.getText());
-        c.setTeacher(tfut.getText());
-        cs.addCourse(c);
-        cbox.setValue(null);
-        tfuc.setText(null);
-        showAll();
-    }
+
+            CourseService cs = new CourseService();
+            Course c = new Course();
+            //c.setSubject(tfus.getText());
+            c.setSubject(cbox.getSelectionModel().getSelectedItem());
+            c.setContent(tfuc.getText());
+            c.setTeacher(tfut.getText());
+            cs.addCourse(c);
+            cbox.setValue(null);
+            tfuc.setText(null);
+            showAll();
+        }
     }
 
     @FXML
     private void searchCourse(ActionEvent event) {
         // 1. Wrap the ObservableList in a FilteredList (initially display all data).
-		FilteredList<Course> filteredData = new FilteredList<>(oblistC, p -> true);
-		
-		// 2. Set the filter Predicate whenever the filter changes.
-		tfSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-			filteredData.setPredicate(Course -> {
-				// If filter text is empty, display all persons.
-				if (newValue == null || newValue.isEmpty()) {
-					return true;
-				}
-				
-				// Compare first name and last name of every person with filter text.
-				String lowerCaseFilter = newValue.toLowerCase();
-				
-				if (Course.getSubject().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-					return true; // Filter matches first name.
-				} else if (Course.getTeacher().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-					return true; // Filter matches last name.
-				}
-				return false; // Does not match.
-			});
-		});
-		
-		// 3. Wrap the FilteredList in a SortedList. 
-		SortedList<Course> sortedData = new SortedList<>(filteredData);
-		
-		// 4. Bind the SortedList comparator to the TableView comparator.
-		// 	  Otherwise, sorting the TableView would have no effect.
-		sortedData.comparatorProperty().bind(tvCourses.comparatorProperty());
-		
-		// 5. Add sorted (and filtered) data to the table.
-		tvCourses.setItems(sortedData);
+        FilteredList<Course> filteredData = new FilteredList<>(oblistC, p -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        tfSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(Course -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (Course.getSubject().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches first name.
+                } else if (Course.getTeacher().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches last name.
+                }
+                return false; // Does not match.
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Course> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(tvCourses.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        tvCourses.setItems(sortedData);
     }
 
     @FXML
     private void browse(ActionEvent event) {
-            wv.setVisible(true);
+        wv.setVisible(true);
         tvCourses.setVisible(false);
         WebEngine engine = wv.getEngine();
         String stri = tvCourses.getSelectionModel().getSelectedItem().getContent();
@@ -1868,32 +1850,33 @@ message.setRecipients(Message.RecipientType.TO,
 
     @FXML
     private void updateSubject(ActionEvent event) throws SQLException {
-          annonceService2 = new SubjectService();
+        annonceService2 = new SubjectService();
         Subject aa = tvSubjects.getSelectionModel().getSelectedItem();
-        System.out.println(aa.getId()+"551");
-        int ids=aa.getId();
+        System.out.println(aa.getId() + "551");
+        int ids = aa.getId();
         String name = tfName.getText();
         String teachers = tfTeachers.getText();
         String classes = tfClasses.getText();
-        Subject a = new Subject(ids,name,teachers,classes);
+        Subject a = new Subject(ids, name, teachers, classes);
         annonceService2.updateSubject(a);
         try {
-            Connection con =(Connection) MyConnection.getInstance().getCnx();
-            
+            Connection con = (Connection) MyConnection.getInstance().getCnx();
+
             ResultSet rs = con.createStatement().executeQuery("select * from subjec");
-            while(rs.next()){
-                oblist2.add(new Subject(rs.getInt("id"),rs.getString("name"),rs.getString("teachers"),rs.getString("classes")));}
+            while (rs.next()) {
+                oblist2.add(new Subject(rs.getInt("id"), rs.getString("name"), rs.getString("teachers"), rs.getString("classes")));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(HomeBinderController.class.getName()).log(Level.SEVERE, null, ex);
         }
         tvSubjects.setItems(oblist2);
-         
+
         showAllSub();
     }
 
     @FXML
     private void deleteSubject(ActionEvent event) {
-                ss= new SubjectService();
+        ss = new SubjectService();
         int index = tvSubjects.getSelectionModel().getSelectedItem().getId();
         ss.deleteSubject(index);
         showAllSub();
@@ -1901,7 +1884,7 @@ message.setRecipients(Message.RecipientType.TO,
 
     @FXML
     private void addSubject(ActionEvent event) {
-                SubjectService cs = new SubjectService();
+        SubjectService cs = new SubjectService();
         Subject s = new Subject();
         s.setName(tfName.getText());
         s.setTeachers(tfTeachers.getText());
@@ -1912,66 +1895,79 @@ message.setRecipients(Message.RecipientType.TO,
 
     @FXML
     private void searchSubject(ActionEvent event) {
-         // 1. Wrap the ObservableList in a FilteredList (initially display all data).
-		FilteredList<Subject> filteredData = new FilteredList<>(oblist2, p -> true);
-		
-		// 2. Set the filter Predicate whenever the filter changes.
-		tfSearch2.textProperty().addListener((observable, oldValue, newValue) -> {
-			filteredData.setPredicate(Subject -> {
-				// If filter text is empty, display all persons.
-				if (newValue == null || newValue.isEmpty()) {
-					return true;
-				}
-				
-				// Compare first name and last name of every person with filter text.
-				String lowerCaseFilter = newValue.toLowerCase();
-				
-				if (Subject.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-					return true; // Filter matches first name.
-				} else if (Subject.getTeachers().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-					return true; // Filter matches last name.
-				}
-				return false; // Does not match.
-			});
-		});
-		
-		// 3. Wrap the FilteredList in a SortedList. 
-		SortedList<Subject> sortedData = new SortedList<>(filteredData);
-		
-		// 4. Bind the SortedList comparator to the TableView comparator.
-		// 	  Otherwise, sorting the TableView would have no effect.
-		sortedData.comparatorProperty().bind(tvSubjects.comparatorProperty());
-		
-		// 5. Add sorted (and filtered) data to the table.
-		tvSubjects.setItems(sortedData);
+        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Subject> filteredData = new FilteredList<>(oblist2, p -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        tfSearch2.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(Subject -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (Subject.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches first name.
+                } else if (Subject.getTeachers().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches last name.
+                }
+                return false; // Does not match.
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Subject> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(tvSubjects.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        tvSubjects.setItems(sortedData);
     }
-    
-    
-    
-        private void showAll() {
-    annonceServiceC = new CourseService();
+
+    private void showAll() {
+        annonceServiceC = new CourseService();
         oblistC = FXCollections.observableArrayList(esC.showAll());
 
         ObservableList observableList = FXCollections.observableArrayList(oblistC);
         tvCourses.setItems(observableList);
-       // id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        // id.setCellValueFactory(new PropertyValueFactory<>("id"));
         subjectW.setCellValueFactory(new PropertyValueFactory<>("subject"));
         content.setCellValueFactory(new PropertyValueFactory<>("content"));
         teacher.setCellValueFactory(new PropertyValueFactory<>("teacher"));
-        
-        
-        
+
     }
+
     private void showAllSub() {
         annonceService2 = new SubjectService();
         oblist2 = FXCollections.observableArrayList(ss.showAllSub());
 
         ObservableList observableList = FXCollections.observableArrayList(oblist2);
         tvSubjects.setItems(observableList);
-    //    idColomn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        //    idColomn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColomn.setCellValueFactory(new PropertyValueFactory<>("name"));
         teacherscolomn.setCellValueFactory(new PropertyValueFactory<>("teachers"));
         classescolomn.setCellValueFactory(new PropertyValueFactory<>("classes"));
 
+    }
+
+    @FXML
+    private void addTeacher(ActionEvent event) {
+    }
+
+    @FXML
+    private void updateTeacher(ActionEvent event) {
+    }
+
+    @FXML
+    private void deleteTeacher(ActionEvent event) {
+    }
+
+    @FXML
+    private void btGoToTeacherOnClick(ActionEvent event) {
     }
 }

@@ -592,11 +592,17 @@
                             <Image url="@icons8-delete-48.png" />
                         </image>
                     </ImageView>
+                    
+                    <ComboBox fx:id="pupilCom" layoutX="118.0" layoutY="299.0" prefWidth="150.0" promptText="pupil" />
+                    <Label layoutX="73.0" layoutY="303.0" text="pupil:" />
                 </children>
                 
             </AnchorPane>
         </children>
     </AnchorPane>
+    
+    
+    
     <AnchorPane fx:id="anchorHome" layoutX="145.0" prefHeight="512.0" prefWidth="684.0" visible="false">
         <children>
             <ImageView fitHeight="694.0" fitWidth="863.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
@@ -720,132 +726,211 @@
             </ImageView>
         </graphic>
     </Button>
-    
-          <AnchorPane fx:id="anchorChour" layoutX="258.0" layoutY="74.0" minHeight="500.0" prefHeight="538.0" prefWidth="511.0" visible="false">
-                     <children>
-      <Label layoutX="14.0" layoutY="14.0" prefHeight="41.0" prefWidth="302.0" text="All courses" textFill="#2d03d3" AnchorPane.bottomAnchor="445.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="491.0" AnchorPane.topAnchor="14.0">
-         <font>
-            <Font name="System Bold Italic" size="31.0" />
-         </font>
-      </Label>
-      <TableView fx:id="tvCourses" layoutY="75.0" prefHeight="293.0" prefWidth="700.0">
-        <columns>
-          <TableColumn fx:id="subjectW" prefWidth="75.0" text="Subject" />
-            <TableColumn fx:id="content" prefWidth="75.0" text="Content" />
-            <TableColumn fx:id="teacher" prefWidth="75.0" text="Teacher" />
-        </columns>
-         <columnResizePolicy>
-         </columnResizePolicy>
-      </TableView>
-      <Button fx:id="btnUpd" layoutX="523.0" layoutY="460.0" mnemonicParsing="false" onAction="#updateCourse" prefHeight="26.0" prefWidth="90.0" style="-fx-background-color: #00d8e4;" text="    Update" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-         </Button>
-      <Button fx:id="btnDel" layoutX="523.0" layoutY="421.0" mnemonicParsing="false" onAction="#deleteCourse" prefHeight="33.0" prefWidth="157.0" style="-fx-background-color: #00d8e4;" text="  Delete" textAlignment="RIGHT" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         </Button>
-      <TextField fx:id="tfuc" layoutX="179.0" layoutY="460.0" promptText="content" />
-      <TextField fx:id="tfut" layoutX="357.0" layoutY="460.0" prefHeight="26.0" prefWidth="157.0" promptText="teacher" />
-      <Button fx:id="btnAdd" layoutX="619.0" layoutY="460.0" mnemonicParsing="false" onAction="#addCourse" prefHeight="26.0" prefWidth="61.0" style="-fx-background-color: #00d8e4;" text="   Add" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-         </Button>
-      <TextField fx:id="tfSearch" layoutX="504.0" layoutY="22.0" onAction="#searchCourse" promptText="Tap to search..." />
-      <ComboBox fx:id="cbox" layoutX="20.0" layoutY="460.0" prefWidth="150.0" promptText="select subject" />
-      <Button fx:id="btnBrowser" layoutX="361.0" layoutY="421.0" mnemonicParsing="false" onAction="#browse" prefHeight="33.0" prefWidth="143.0" style="-fx-background-color: #00d8e4;" text="    BROWSE" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Button>
-      <WebView fx:id="wv" layoutY="102.0" prefHeight="312.0" prefWidth="700.0" />
-      <ImageView fitHeight="26.0" fitWidth="27.0" layoutX="539.0" layoutY="425.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@delete.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="614.0" layoutY="460.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@add.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="523.0" layoutY="460.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@update.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="33.0" fitWidth="35.0" layoutX="361.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@browse.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="btnExit" layoutX="160.0" layoutY="422.0" mnemonicParsing="false" onAction="#exitBrowser" prefHeight="33.0" prefWidth="185.0" style="-fx-background-color: #00d8e4;" text="    exit browser" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         </Button>
-      <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="163.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@goBack%20.png" />
-         </image>
-      </ImageView>
-   </children>
+        <Button fx:id="btGotoTeacher" layoutX="6.0" layoutY="590.0" mnemonicParsing="false" onAction="#btGoToTeacherOnClick" prefHeight="44.0" prefWidth="134.0" style="-fx-background-color: #6dc8c4;" text="Teacher" textFill="#222222">
+        <font>
+            <Font name="Jokerman" size="14.0" />
+        </font>
+        <graphic>
+            <ImageView fitHeight="80.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@icons8-student-male-48.png" />
+                </image>
+            </ImageView>
+        </graphic>
+    </Button>
+    <AnchorPane fx:id="anchorChour" layoutX="258.0" layoutY="74.0" minHeight="500.0" prefHeight="538.0" prefWidth="511.0" visible="false">
+        <children>
+            
+            <Label layoutX="14.0" layoutY="14.0" prefHeight="41.0" prefWidth="302.0" text="All courses" textFill="#2d03d3" AnchorPane.bottomAnchor="445.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="491.0" AnchorPane.topAnchor="14.0">
+                <font>
+                    <Font name="System Bold Italic" size="31.0" />
+                </font>
+            </Label>
+            <TableView fx:id="tvCourses" layoutY="75.0" prefHeight="293.0" prefWidth="700.0">
+                <columns>
+                    <TableColumn fx:id="subjectW" prefWidth="75.0" text="Subject" />
+                    <TableColumn fx:id="content" prefWidth="75.0" text="Content" />
+                    <TableColumn fx:id="teacher" prefWidth="75.0" text="Teacher" />
+                </columns>
+                <columnResizePolicy>
+                </columnResizePolicy>
+            </TableView>
+            <Button fx:id="btnUpd" layoutX="523.0" layoutY="460.0" mnemonicParsing="false" onAction="#updateCourse" prefHeight="26.0" prefWidth="90.0" style="-fx-background-color: #00d8e4;" text="    Update" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="13.0" />
+                </font>
+            </Button>
+            <Button fx:id="btnDel" layoutX="523.0" layoutY="421.0" mnemonicParsing="false" onAction="#deleteCourse" prefHeight="33.0" prefWidth="157.0" style="-fx-background-color: #00d8e4;" text="  Delete" textAlignment="RIGHT" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+            </Button>
+            <TextField fx:id="tfuc" layoutX="179.0" layoutY="460.0" promptText="content" />
+            <TextField fx:id="tfut" layoutX="357.0" layoutY="460.0" prefHeight="26.0" prefWidth="157.0" promptText="teacher" />
+            <Button fx:id="btnAdd" layoutX="619.0" layoutY="460.0" mnemonicParsing="false" onAction="#addCourse" prefHeight="26.0" prefWidth="61.0" style="-fx-background-color: #00d8e4;" text="   Add" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="13.0" />
+                </font>
+            </Button>
+            <TextField fx:id="tfSearch" layoutX="504.0" layoutY="22.0" onAction="#searchCourse" promptText="Tap to search..." />
+            <ComboBox fx:id="cbox" layoutX="20.0" layoutY="460.0" prefWidth="150.0" promptText="select subject" />
+            <Button fx:id="btnBrowser" layoutX="361.0" layoutY="421.0" mnemonicParsing="false" onAction="#browse" prefHeight="33.0" prefWidth="143.0" style="-fx-background-color: #00d8e4;" text="    BROWSE" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+            </Button>
+            <WebView fx:id="wv" layoutY="102.0" prefHeight="312.0" prefWidth="700.0" />
+            <ImageView fitHeight="26.0" fitWidth="27.0" layoutX="539.0" layoutY="425.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@delete.png" />
+                </image>
+            </ImageView>
+            <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="614.0" layoutY="460.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@add.png" />
+                </image>
+            </ImageView>
+            <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="523.0" layoutY="460.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@update.png" />
+                </image>
+            </ImageView>
+            <ImageView fitHeight="33.0" fitWidth="35.0" layoutX="361.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@browse.png" />
+                </image>
+            </ImageView>
+            <Button fx:id="btnExit" layoutX="160.0" layoutY="422.0" mnemonicParsing="false" onAction="#exitBrowser" prefHeight="33.0" prefWidth="185.0" style="-fx-background-color: #00d8e4;" text="    exit browser" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+            </Button>
+            <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="163.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@goBack%20.png" />
+                </image>
+            </ImageView>
+        </children>
                     
                           
     </AnchorPane>
     <AnchorPane fx:id="anchorSubject" layoutX="259.0" layoutY="106.0" minHeight="500.0" prefHeight="506.0" prefWidth="662.0">
                     
-                      <children>
-      <Label fx:id="l2" layoutX="14.0" layoutY="14.0" prefHeight="41.0" prefWidth="203.0" text="All subjects" textFill="#2d03d3" AnchorPane.bottomAnchor="445.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="483.0" AnchorPane.topAnchor="14.0">
-         <font>
-            <Font name="System Bold Italic" size="31.0" />
-         </font>
-      </Label>
-      <TableView fx:id="tvSubjects" layoutY="75.0" prefHeight="340.0" prefWidth="700.0">
+        <children>
+            <Label fx:id="l2" layoutX="14.0" layoutY="14.0" prefHeight="41.0" prefWidth="203.0" text="All subjects" textFill="#2d03d3" AnchorPane.bottomAnchor="445.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="483.0" AnchorPane.topAnchor="14.0">
+                <font>
+                    <Font name="System Bold Italic" size="31.0" />
+                </font>
+            </Label>
+            <TableView fx:id="tvSubjects" layoutY="75.0" prefHeight="340.0" prefWidth="700.0">
+                <columns>
+                    <TableColumn fx:id="nameColomn" prefWidth="75.0" text="Name" />
+                    <TableColumn fx:id="teacherscolomn" prefWidth="75.0" text="Teachers" />
+                    <TableColumn fx:id="classescolomn" prefWidth="75.0" text="Classes" />
+                </columns>
+                <columnResizePolicy>
+                </columnResizePolicy>
+            </TableView>
+            <Button fx:id="btnUpd2" layoutX="529.0" layoutY="460.0" mnemonicParsing="false" onAction="#updateSubject" style="-fx-background-color: #00d8e4;" text="Update" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="13.0" />
+                </font>
+            </Button>
+            <Button fx:id="btnDel2" layoutX="529.0" layoutY="421.0" mnemonicParsing="false" onAction="#deleteSubject" prefHeight="26.0" prefWidth="147.0" style="-fx-background-color: #00d8e4;" text="Delete" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+            </Button>
+            <TextField fx:id="tfName" layoutX="14.0" layoutY="460.0" prefHeight="26.0" prefWidth="157.0" promptText="name" />
+            <TextField fx:id="tfTeachers" layoutX="179.0" layoutY="460.0" promptText="teachers" />
+            <TextField fx:id="tfClasses" layoutX="357.0" layoutY="460.0" prefHeight="26.0" prefWidth="157.0" promptText="classes" />
+            <Button fx:id="btnAdd2" layoutX="614.0" layoutY="460.0" mnemonicParsing="false" onAction="#addSubject" prefHeight="26.0" prefWidth="61.0" style="-fx-background-color: #00d8e4;" text="Add" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="13.0" />
+                </font>
+            </Button>
+            <TextField fx:id="tfSearch2" layoutX="504.0" layoutY="22.0" onAction="#searchSubject" promptText="Tap to search..." />
+        </children>
+                    
+    </AnchorPane>
+    <AnchorPane fx:id="anchorAb" layoutX="144.0" layoutY="3.0" prefHeight="692.0" prefWidth="924.0" visible="false">
+                    
+                    
+                    
+    </AnchorPane>
+    <AnchorPane fx:id="anchorNotif" layoutX="144.0" layoutY="3.0" prefHeight="692.0" prefWidth="924.0" visible="false">
+                    
+                    
+                    
+    </AnchorPane>
+      
+    <AnchorPane fx:id="anchorTeacher" layoutX="144.0" layoutY="3.0" prefHeight="692.0" prefWidth="924.0" style="-fx-background-color: #efefe5;" visible="false">
+    <children>
+      <AnchorPane prefHeight="60.0" prefWidth="631.0" style="-fx-background-color: #6dc8c4;">
+         <children>
+            <Label layoutX="204.0" text="Teacher Registration">
+               <font>
+                  <Font name="Tempus Sans ITC" size="31.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="65.0" fitWidth="66.0" layoutX="14.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons8-bookmark-100.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+      <ImageView fitHeight="446.0" fitWidth="644.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@bac.jpg" />
+         </image>
+      </ImageView>
+      <TextField fx:id="rechercheBarT" layoutX="386.0" layoutY="71.0" onAction="#rechercher" promptText="search" style="-fx-border-color: #6dc8c4;" />
+      <TextField fx:id="tfNameT" layoutX="117.0" layoutY="150.0" promptText="name" style="-fx-border-color: #6dc8c4;" />
+      <TextField fx:id="tfMail" layoutX="117.0" layoutY="202.0" promptText="Mail" style="-fx-border-color: #6dc8c4;" />
+      <TextField fx:id="tfPhone" layoutX="117.0" layoutY="281.0" promptText="Phone" style="-fx-border-color: #6dc8c4;" />
+      <TableView fx:id="tabT" layoutX="283.0" layoutY="124.0" prefHeight="200.0" prefWidth="352.0">
         <columns>
-          <TableColumn fx:id="nameColomn" prefWidth="75.0" text="Name" />
-            <TableColumn fx:id="teacherscolomn" prefWidth="75.0" text="Teachers" />
-            <TableColumn fx:id="classescolomn" prefWidth="75.0" text="Classes" />
+          <TableColumn fx:id="nameT" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="mailT" prefWidth="75.0" text="Mail" />
+            <TableColumn fx:id="phoneT" prefWidth="100.79998779296875" text="Phone" />
+            <TableColumn fx:id="specialtyT" prefWidth="100.79998779296875" text="Specialty" />
         </columns>
-         <columnResizePolicy>
-         </columnResizePolicy>
       </TableView>
-      <Button fx:id="btnUpd2" layoutX="529.0" layoutY="460.0" mnemonicParsing="false" onAction="#updateSubject" style="-fx-background-color: #00d8e4;" text="Update" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font></Button>
-      <Button fx:id="btnDel2" layoutX="529.0" layoutY="421.0" mnemonicParsing="false" onAction="#deleteSubject" prefHeight="26.0" prefWidth="147.0" style="-fx-background-color: #00d8e4;" text="Delete" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font></Button>
-      <TextField fx:id="tfName" layoutX="14.0" layoutY="460.0" prefHeight="26.0" prefWidth="157.0" promptText="name" />
-      <TextField fx:id="tfTeachers" layoutX="179.0" layoutY="460.0" promptText="teachers" />
-      <TextField fx:id="tfClasses" layoutX="357.0" layoutY="460.0" prefHeight="26.0" prefWidth="157.0" promptText="classes" />
-      <Button fx:id="btnAdd2" layoutX="614.0" layoutY="460.0" mnemonicParsing="false" onAction="#addSubject" prefHeight="26.0" prefWidth="61.0" style="-fx-background-color: #00d8e4;" text="Add" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font></Button>
-      <TextField fx:id="tfSearch2" layoutX="504.0" layoutY="22.0" onAction="#searchSubject" promptText="Tap to search..." />
-   </children>
-                    
-    </AnchorPane>
-    <AnchorPane fx:id="anchorAb" minHeight="500.0" prefHeight="612.0" prefWidth="921.0" visible="false">
-                    
-                    
-                    
-    </AnchorPane>
-    <AnchorPane fx:id="anchorNotif" minHeight="500.0" prefHeight="612.0" prefWidth="921.0" visible="false">
-                    
+      <Button alignment="CENTER_RIGHT" layoutX="26.0" layoutY="391.0" mnemonicParsing="false" onAction="#addTeacher" prefHeight="35.0" prefWidth="122.0" style="-fx-background-radius: 10; -fx-background-color: #BEF781;" text="Add teacher" />
+      <Button alignment="CENTER_RIGHT" layoutX="156.0" layoutY="391.0" mnemonicParsing="false" onAction="#updateTeacher" prefHeight="35.0" prefWidth="138.0" style="-fx-background-radius: 10; -fx-background-color: #F3F781;" text="Update teacher" />
+      <Button alignment="CENTER_RIGHT" layoutX="307.0" layoutY="391.0" mnemonicParsing="false" onAction="#deleteTeacher" prefHeight="35.0" prefWidth="138.0" style="-fx-background-radius: 10; -fx-background-color: #FA5858;" text="Delete teacher" />
+      <Label layoutX="65.0" layoutY="155.0" prefWidth="74.0" text="Name :" />
+      <Label layoutX="66.0" layoutY="205.0" text="Mail :" />
+      <Label layoutX="66.0" layoutY="287.0" text="Phone :" />
+      <ImageView fitHeight="27.0" fitWidth="21.0" layoutX="172.0" layoutY="398.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-edit-48.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="35.0" fitWidth="29.0" layoutX="37.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-checked-48.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="21.0" layoutX="319.0" layoutY="398.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-delete-48.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="tfSpec" layoutX="117.0" layoutY="328.0" promptText="Specialty" style="-fx-border-color: #6dc8c4;" />
+      <Label layoutX="62.0" layoutY="333.0" text="Specialty:" />
+      <TextField fx:id="tfPassword" layoutX="116.0" layoutY="241.0" promptText="Password" style="-fx-border-color: #6dc8c4;" />
+      <Label layoutX="61.0" layoutY="246.0" text="Password" />
+   </children>                
                     
                     
     </AnchorPane>
 
+    
     <Separator layoutX="4.0" layoutY="363.0" prefHeight="5.0" prefWidth="141.0" />
     <Separator layoutX="4.0" layoutY="407.0" prefHeight="5.0" prefWidth="141.0" />
     <Separator layoutX="4.0" layoutY="451.0" prefHeight="5.0" prefWidth="141.0" />
     <Separator layoutX="4.0" layoutY="495.0" prefHeight="5.0" prefWidth="141.0" />
     <Separator layoutX="4.0" layoutY="536.0" prefHeight="5.0" prefWidth="141.0" />
+   <Separator layoutX="4.0" layoutY="588.0" prefHeight="5.0" prefWidth="141.0" />
 </AnchorPane>

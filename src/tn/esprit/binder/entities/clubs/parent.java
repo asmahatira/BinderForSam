@@ -10,26 +10,25 @@ package tn.esprit.binder.entities.clubs;
  * @author Sam
  */
 public class parent {
-    
+
     private String name;
-    
     private int id;
-    
     private String mail;
-    
     private String phone;
-    int id_user;
+    private int id_user;
+    private int id_pupil;
 
     public parent() {
-       
+
     }
 
-    public parent(String name, String mail, String phone) {
-         this.name = name;
-       
+    public parent(String name, String mail, String phone,int id_parent) {
+        this.name = name;
+
         this.mail = mail;
         this.phone = phone;
-        
+        this.id_pupil=id_parent;
+
     }
 
     /**
@@ -50,14 +49,14 @@ public class parent {
         this.phone = phone;
     }
 
-    public parent(String name, int id, String mail, String phone,int id_user) {
+    public parent(String name, int id, String mail, String phone, int id_user, int id_pupil) {
         this.name = name;
         this.id = id;
         this.mail = mail;
         this.phone = phone;
-        this.id_user=id_user;
+        this.id_user = id_user;
+        this.id_pupil=id_pupil;
     }
-
 
     /**
      * Get the value of mail
@@ -76,7 +75,6 @@ public class parent {
     public void setMail(String mail) {
         this.mail = mail;
     }
-
 
     /**
      * Get the value of id
@@ -100,7 +98,6 @@ public class parent {
     public void setId(int id) {
         this.id = id;
     }
-
 
     /**
      * Get the value of name
@@ -128,6 +125,26 @@ public class parent {
         this.id_user = id_user;
     }
 
-    
-    
+    public parent(String name, int id, String mail, String phone) {
+        this.name = name;
+        this.id = id;
+        this.mail = mail;
+        this.phone = phone;
+    }
+       public parent(String name, String mail, String phone) {
+        this.name = name;
+      
+        this.mail = mail;
+        this.phone = phone;
+    }
+
+    public int getId_pupil() {
+        return id_pupil;
+    }
+
+    public void setId_pupil(int id_pupil) {
+        this.id_pupil = id_pupil;
+    }
+       
+
 }

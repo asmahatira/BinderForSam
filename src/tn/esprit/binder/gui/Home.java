@@ -30,14 +30,14 @@ public class Home extends Application {
         try {
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("homeBinder.fxml"));
+            loader.setLocation(getClass().getResource("login.fxml"));
             Parent n;
             n = (Parent) loader.load();
-            HomeBinderController GP = loader.getController();
+            LoginController GP = loader.getController();
             //  GP.getStage(primaryStage);
 
             Scene scene = new Scene(n);
-            primaryStage.setTitle("pupils");
+            primaryStage.setTitle("Login Binder");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException ex) {

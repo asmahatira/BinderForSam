@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.swing.JOptionPane;
@@ -29,7 +31,7 @@ import tn.esprit.binder.services.ServicesFOS;
  */
 public class ParentService implements IParentService {
     
-    Connection cn = MyConnection.getInstance().getCnx();
+   Connection cn = MyConnection.getInstance().getCnx();
     Statement st; //execute la req
     PreparedStatement pst;
     FileInputStream fls;
@@ -40,23 +42,12 @@ public class ParentService implements IParentService {
         
          try {
  
-      FOSUser u = new FOSUser(p.getName(), p.getName(), p.getMail(),
-                    p.getMail(), (byte) 1, null, p.getName(), java.sql.Date.valueOf(LocalDate.now()), null, java.sql.Date.valueOf(LocalDate.now()), "a:1:{i:0;s:10:\"ROLE_PARENT\";");
-
-            new ServicesFOS().ajouterUser(u);
-            System.out.println(u+"aaaaaaaaaaaaaaaaaaaaaaaaa");
-            p.setId_user(new ServicesFOS().getUserByUsername(u.getUserName()).getId());
-            System.out.println(p.getId_user()+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-            System.out.println(p+"samaaaaaaaaaar");
+ 
            Connection con =MyConnection.getInstance().getCnx();
             //Excecute la requete et envoie dans ResultSet
- 
- 
- 
+
             String RequeteAjout = "INSERT INTO `parent`( `id`,`name`, `mail`,`phone`,`id_user`) VALUES ('"+p.getId()+"','"+p.getName()+"','"+p.getMail()+"','"+p.getPhone()+"','"+p.getId_user()+"')";
-            /*TFPrenom.getText(), TFNom.getText(), TFPoste.getText(), TFDate_de_naissance.getText() , TFNationalite.getText()*/
-              
-       
+            /*TFPrenom.getText(), TFNom.getText(), TFPoste.getText(), TFDate_de_naissance.getText() , TFNationalite.getText()*/      
            pst = con.prepareStatement(RequeteAjout);
             pst.executeUpdate(RequeteAjout);
             JOptionPane.showMessageDialog(null,"Ajout avec succes");
@@ -127,9 +118,7 @@ public class ParentService implements IParentService {
                        resultSet.getString("name"),
                         resultSet.getInt("id"),
                         resultSet.getString("mail"),
-                        resultSet.getString("phone"),
-                        resultSet.getInt("id_user")
-                        
+                        resultSet.getString("phone")
                         
                 );
                 parents.add(p); 
@@ -232,5 +221,50 @@ public class ParentService implements IParentService {
         }
         return arr;
      }*/
+    //populer le combo box par les nom des pupils
+    public ObservableList<String> readAllP() throws SQLException {
+        ObservableList<String> arr = FXCollections.observableArrayList();
+        pst = cn.prepareStatement("SELECT fullname FROM pupils");
+       ResultSet rs = pst.executeQuery();
+        while (rs.next()) {
+            
+            String subject = rs.getString("fullname");
+            System.out.println(subject+"vvvvvvvvv");
+            arr.add(subject);
+        }
+        return arr;
+    }
+    //retourner l'id de pupil ou on as selectionné le nom dans le combo box
+    public int getPupilId(String fullname) throws SQLException {
+       int arr = 0;
+        pst = cn.prepareStatement( "SELECT * FROM `pupils` WHERE `fullname` = '"+fullname+"'");
+       ResultSet rs = pst.executeQuery();
+        while (rs.next()) {
+            
+            return rs.getInt("id");
+            
+        }
+        return arr;
+    }
+      
+    public parent getParentByUsername(String username,String mail) {
+        try {
+            PreparedStatement pt = cn.prepareStatement("select * from parent where name = ? and mail = ?");
+            pt.setString(1, username);
+            pt.setString(2, mail);
+
+            ResultSet rs = pt.executeQuery();
+            if (rs.next()) {
+                parent p = new parent(rs.getString(2),rs.getInt(1) , rs.getString(3), rs.getString(4));
+                System.out.println(p+"hooooooooooooooooh");
+                return p;
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ServicesFOS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     
 }

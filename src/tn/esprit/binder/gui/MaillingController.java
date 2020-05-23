@@ -42,6 +42,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import org.apache.poi.util.StringUtil;
 import tn.esprit.binder.entities.Classes;
 import tn.esprit.binder.entities.Pupils;
 import tn.esprit.binder.entities.TimeTable;
@@ -74,7 +75,7 @@ public class MaillingController implements Initializable {
     Classes gr;
     @FXML
     private Button btAdd;
-
+File file;
     /**
      * Initializes the controller class.
      */
@@ -86,12 +87,24 @@ public class MaillingController implements Initializable {
 
     @FXML
     private void btAddOnClick(ActionEvent event) throws ProtocolException, IOException {
-        JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(null);
-
-        File f = chooser.getSelectedFile();
-        url_pdf = f.getAbsolutePath();
-        pdfTxt.setText(url_pdf);
+      
+         FileChooser filechooser = new FileChooser();
+         
+         file = filechooser.showOpenDialog(this.stage);
+        if (file.isFile() && file.getName().contains(".pdf")) {
+                System.out.println(file);
+                FileUploader fu = new FileUploader("localhost/emploi");
+                
+                String fileNameInServer = fu.upload(file.toString());
+                url_pdf =  fileNameInServer;
+                        String result =url_pdf.replaceAll(".pdf", ".tmp");
+String result1 =result.replaceAll("f_", "");
+                pdfTxt.setText(result1);
+    
+        }
+    
+        
+        
 
     }
 
@@ -135,7 +148,7 @@ public class MaillingController implements Initializable {
 
             //Attachment body part.
             MimeBodyPart pdfAttachment = new MimeBodyPart();
-            pdfAttachment.attachFile(pdfTxt.getText());
+            pdfAttachment.attachFile(file.getAbsolutePath());
 
             //Attach body parts
             emailContent.addBodyPart(textBodyPart);
@@ -149,11 +162,8 @@ public class MaillingController implements Initializable {
             
         } catch (MessagingException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        timeTable.setPdfT(url_pdf);
+        } 
+      //  timeTable.setPdfT(url_pdf);
         System.out.println("iiiiiii"+timeTable.getPdfT()+"aaaaaa"+timeTable.getIdClasse());
         new ServicesTimeTable().InsertPdf(timeTable);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("gestionPupil.fxml"));
