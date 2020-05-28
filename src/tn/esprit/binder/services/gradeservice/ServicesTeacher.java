@@ -13,7 +13,9 @@ import java.sql.Statement;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javax.swing.JOptionPane;
 import tn.esprit.binder.Iservices.grade.IservicesTeacher;
+import tn.esprit.binder.entities.clubs.parent;
 import tn.esprit.binder.entities.grades.Teacher;
 import tn.esprit.binder.utils.MyConnection;
 
@@ -51,14 +53,59 @@ public class ServicesTeacher implements IservicesTeacher<Teacher>{
     public void addTeacher(Teacher Te) {
  try {
             ste = cnx.createStatement();
-            String requeteInsert = "INSERT INTO teacher VALUES (NULL, '"+ Te.getFullname()+ "', '"+ Te.getEmail()+ "', '"+ Te.getPassword()+"', '"+ Te.getPhonenumber()+ "', '"+ Te.getSpecialty() + "')";
+            //"INSERT INTO `parent`( `id`,`name`, `mail`,`phone`,`id_user`) VALUES ('"+p.getId()+"','"+p.getName()+"','"+p.getMail()+"','"+p.getPhone()+"','"+p.getId_user()+"')";
+            String requeteInsert = "INSERT INTO teacher VALUES (NULL, '"+ Te.getFullname()+ "', '"+ Te.getEmail()+ "', '"+ Te.getPassword()+"', '"+ Te.getPhonenumber()+ "', '"+ Te.getSpecialty() + "','"+Te.getId_user()+"')";
             ste.executeUpdate(requeteInsert);
         } catch (SQLException ex1) {
             System.out.println(ex1.getMessage());
         }
             
     }
+    @Override
+    public void deleteTeachermodified(int id) {
+        String req = "delete from teacher where id =?";
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = cnx.prepareStatement(req);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+           
 
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+          
+        }
+    }
+
+    @Override
+    public void addTeachermodify(Teacher Te) throws SQLException {
+        try {
+ 
+ 
+           Connection con =MyConnection.getInstance().getCnx();
+            //Excecute la requete et envoie dans ResultSet
+ 
+ 
+ 
+            String RequeteAjout = "INSERT INTO teacher VALUES (NULL, '"+"','"+Te.getFullname()+"','"+Te.getEmail()+"','"+Te.getPassword()+"','"+Te.getPhonenumber()+"','"+Te.getSpecialty()+"')";
+            /*TFPrenom.getText(), TFNom.getText(), TFPoste.getText(), TFDate_de_naissance.getText() , TFNationalite.getText()*/
+              
+       
+           ste = con.prepareStatement(RequeteAjout);
+            ste.executeUpdate(RequeteAjout);
+             JOptionPane.showMessageDialog(null,"Modified successfully!");
+           
+        
+          
+            //TEST DEBUG///
+
+        } 
+        
+        catch (SQLException e) {
+            System.out.println("update impossible à effectuer.\nErreur :" + e);
+        }
+    }
+    
     @Override
     public void updateTeacher(Teacher Te) throws SQLException {
      ste = cnx.createStatement();

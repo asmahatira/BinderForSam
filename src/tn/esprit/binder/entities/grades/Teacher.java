@@ -20,6 +20,16 @@ private int id_user;
     public Teacher() {
     }
 
+    public Teacher(String fullname, String email, String password, String phonenumber, String specialty, int id_user) {
+        this.fullname = fullname;
+        this.email = email;
+        this.password = password;
+        this.phonenumber = phonenumber;
+        this.specialty = specialty;
+        this.id_user = id_user;
+    }
+
+    
     public Teacher(int idTeacher, String fullname, String email, String password, String phonenumber, String specialty) {
         this.idTeacher = idTeacher;
         this.fullname = fullname;

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="binder.ClubFrontController">
+   <children>
+      <TableView fx:id="tab" layoutX="102.0" layoutY="121.0" prefHeight="200.0" prefWidth="382.0">
+        <columns>
+          <TableColumn fx:id="aboutA" prefWidth="75.0" text="about" />
+          <TableColumn fx:id="durationA" prefWidth="75.0" text="duration" />
+            <TableColumn fx:id="locationA" prefWidth="75.0" text="location" />
+            <TableColumn fx:id="dateA" prefWidth="79.0" text="date" />
+            <TableColumn fx:id="clubA" prefWidth="75.0" text="club" />
+        </columns>
+      </TableView>
+      <TextField fx:id="rechercheBar" layoutX="216.0" layoutY="71.0" onAction="#rechercher" promptText="search here" />
+      <Label layoutX="240.0" layoutY="39.0" text="Check the updates!" />
+   </children>
+</AnchorPane>

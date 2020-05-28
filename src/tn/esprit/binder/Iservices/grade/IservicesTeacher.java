@@ -18,6 +18,8 @@ public interface IservicesTeacher<Te> {
     public void addTeacher(Teacher Te);
     public void updateTeacher(Teacher Te) throws SQLException;
     public void deleteTeacher(int i) throws SQLException;
+    public void deleteTeachermodified(int id) throws SQLException;
+     public void addTeachermodify(Teacher Te) throws SQLException;
     
     
 }

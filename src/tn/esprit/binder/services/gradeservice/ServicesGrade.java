@@ -163,7 +163,7 @@ public class ServicesGrade implements IservicesGrades<Grade> {
         List<Grade> arr = new ArrayList();
         try {
             ste = cnx.createStatement();
-            String req = "select * from Grade where Grade >= 10.00";
+            String req = "select * from grade where grade >= 10.00";
             ResultSet rs = ste.executeQuery(req);
             while (rs.next()) {
                 int id = rs.getInt(1);
@@ -186,7 +186,7 @@ public class ServicesGrade implements IservicesGrades<Grade> {
         List<Grade> arr = new ArrayList();
         try {
             ste = cnx.createStatement();
-            String req = "select * from Grade where Grade < 10.00";
+            String req = "select * from grade where grade < 10.00";
             ResultSet rs = ste.executeQuery(req);
             while (rs.next()) {
                 int id = rs.getInt(1);

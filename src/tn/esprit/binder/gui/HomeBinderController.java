@@ -87,6 +87,7 @@ import tn.esprit.binder.entities.clubs.parent;
 import tn.esprit.binder.entities.clubs.quantity;
 import tn.esprit.binder.entities.grades.Exams;
 import tn.esprit.binder.entities.grades.Grade;
+import tn.esprit.binder.entities.grades.Teacher;
 import tn.esprit.binder.services.CourseService;
 import tn.esprit.binder.services.ServicesClasses;
 import tn.esprit.binder.services.ServicesFOS;
@@ -97,6 +98,7 @@ import tn.esprit.binder.services.club.ClubService;
 import tn.esprit.binder.services.club.ParentService;
 import tn.esprit.binder.services.gradeservice.ServicesExam;
 import tn.esprit.binder.services.gradeservice.ServicesGrade;
+import tn.esprit.binder.services.gradeservice.ServicesTeacher;
 import tn.esprit.binder.utils.MyConnection;
 
 /**
@@ -330,7 +332,7 @@ public class HomeBinderController implements Initializable {
     private IParentService annonceServiceP;
     ObservableList<parent> oblistP = FXCollections.observableArrayList();
     ParentService esP = new ParentService();
-
+ServicesTeacher St = new ServicesTeacher();
     private IActivityService annonceServiceA;
     ObservableList<activity> oblistA = FXCollections.observableArrayList();
     ActivityService esA = new ActivityService();
@@ -428,20 +430,21 @@ public class HomeBinderController implements Initializable {
     @FXML
     private TextField tfPhone;
     @FXML
-    private TableView<?> tabT;
+    private TableView<Teacher> tabT;
     @FXML
-    private TableColumn<?, ?> nameT;
+    private TableColumn<Teacher,String> nameT;
     @FXML
-    private TableColumn<?, ?> mailT;
+    private TableColumn<Teacher,String> mailT;
     @FXML
-    private TableColumn<?, ?> phoneT;
+    private TableColumn<Teacher, String> phoneT;
     @FXML
-    private TableColumn<?, ?> specialtyT;
+    private TableColumn<Teacher,String> specialtyT;
     @FXML
     private TextField tfSpec;
     @FXML
     private TextField tfPassword;
-
+    public List<Teacher> Teachers;
+ ObservableList<Teacher> oblistT = FXCollections.observableArrayList();
     public HomeBinderController() {
         cnx = MyConnection.getInstance().getCnx();
     }
@@ -465,6 +468,14 @@ public class HomeBinderController implements Initializable {
             Grades = new ServicesGrade().readAll();
             tableGrade.setItems((ObservableList<Grade>) Grades);
             listgrades.setVisible(false);
+            
+            nameT.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFullname()));
+            mailT.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEmail()));
+            phoneT.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPhonenumber()));
+            specialtyT.setCellValueFactory(c-> new SimpleStringProperty(c.getValue().getSpecialty()));
+            Teachers = new ServicesTeacher().readAll();
+            tabT.setItems((ObservableList<Teacher>) Teachers);
+            anchorTeacher.setVisible(false);
 
             //ichrak----------------------------------------------------------------------
             idClass.setCellValueFactory(new PropertyValueFactory<Classes, Integer>("id"));
@@ -543,6 +554,7 @@ public class HomeBinderController implements Initializable {
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
+         anchorTeacher.setVisible(false);
 
         // TODO
         //wael---------------------------------------------------------------------------------------------
@@ -591,7 +603,7 @@ public class HomeBinderController implements Initializable {
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
-
+ anchorTeacher.setVisible(false);
     }
 
     @FXML
@@ -708,6 +720,7 @@ public class HomeBinderController implements Initializable {
         anchorClass.setVisible(true);
         anchorClassGestion.setVisible(true);
         anchorHome.setVisible(false);
+         anchorTeacher.setVisible(false);
 
     }
 
@@ -716,7 +729,7 @@ public class HomeBinderController implements Initializable {
         anchorClass.setVisible(true);
         anchorClassGestion.setVisible(true);
         anchorHome.setVisible(false);
-
+ anchorTeacher.setVisible(false);
     }
 
     //------------------------------------Asma-------------------------------------------------------
@@ -886,6 +899,7 @@ public class HomeBinderController implements Initializable {
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
+         anchorTeacher.setVisible(false);
     }
 
     @FXML
@@ -901,6 +915,7 @@ public class HomeBinderController implements Initializable {
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
+         anchorTeacher.setVisible(false);
 
     }
 
@@ -912,6 +927,10 @@ public class HomeBinderController implements Initializable {
     public void actualiserTable() {
         tableExams.getItems().clear();
         tableExams.getItems().addAll(FXCollections.observableList(Examss));
+    }
+     public void actualiserTableT() {
+        tabT.getItems().clear();
+        tabT.getItems().addAll(FXCollections.observableList(Teachers));
     }
 
     @FXML
@@ -1022,6 +1041,7 @@ public class HomeBinderController implements Initializable {
         anchorHome.setVisible(false);
         listexams.setVisible(false);
         listgrades.setVisible(true);
+         anchorTeacher.setVisible(false);
 
     }
 
@@ -1032,6 +1052,7 @@ public class HomeBinderController implements Initializable {
         anchorHome.setVisible(false);
         listexams.setVisible(true);
         listgrades.setVisible(false);
+         anchorTeacher.setVisible(false);
 
     }
 
@@ -1243,6 +1264,7 @@ public class HomeBinderController implements Initializable {
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
+         anchorTeacher.setVisible(false);
     }
 
     @FXML
@@ -1490,6 +1512,7 @@ public class HomeBinderController implements Initializable {
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
+         anchorTeacher.setVisible(false);
     }
 
     @FXML
@@ -1505,6 +1528,7 @@ public class HomeBinderController implements Initializable {
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
+         anchorTeacher.setVisible(false);
     }
 
     private boolean validateMail() {
@@ -1540,7 +1564,19 @@ public class HomeBinderController implements Initializable {
         }
 
     }
+ private void AfficherAllT() throws SQLException {
 
+        St = new ServicesTeacher();
+        oblistT = FXCollections.observableArrayList(St.readAll());
+
+        ObservableList observableListT = FXCollections.observableArrayList(oblistT);
+        tabT.setItems(observableListT);
+        //idA.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameT.setCellValueFactory(new PropertyValueFactory<>("fullname"));
+        mailT.setCellValueFactory(new PropertyValueFactory<>("email"));
+        phoneT.setCellValueFactory(new PropertyValueFactory<>("phonenumber"));
+        specialtyT.setCellValueFactory(new PropertyValueFactory<>("specialty"));
+    }
     private void AfficherAllP() {
 
         annonceServiceP = new ParentService();
@@ -1693,6 +1729,7 @@ public class HomeBinderController implements Initializable {
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
+         anchorTeacher.setVisible(false);
     }
 
     @FXML
@@ -1708,6 +1745,7 @@ public class HomeBinderController implements Initializable {
         anchorSubject.setVisible(true);
         anchorAb.setVisible(false);
         anchorNotif.setVisible(false);
+         anchorTeacher.setVisible(false);
     }
 
     @FXML
@@ -1723,6 +1761,7 @@ public class HomeBinderController implements Initializable {
         anchorSubject.setVisible(false);
         anchorAb.setVisible(true);
         anchorNotif.setVisible(false);
+         anchorTeacher.setVisible(false);
     }
 
     @FXML
@@ -1737,6 +1776,7 @@ public class HomeBinderController implements Initializable {
         anchorChour.setVisible(false);
         anchorSubject.setVisible(false);
         anchorAb.setVisible(false);
+            anchorTeacher.setVisible(false);
         anchorNotif.setVisible(true);
     }
 
@@ -1954,20 +1994,122 @@ public class HomeBinderController implements Initializable {
         classescolomn.setCellValueFactory(new PropertyValueFactory<>("classes"));
 
     }
+    
+    /*
+      if (validateMail() && validatePhone()) {
+            //String about =aboutAJ.getText();
+            String name = nameAj.getText();
+            String phone = phoneAJ.getText();
 
+            String mail = mailAJ.getText();
+            String pupilname = pupilCom.getValue();
+            parent p = new parent(name, mail, phone);
+            FOSUser u = new FOSUser(name, name, mail,
+                    mail, (byte) 1, null, name, java.sql.Date.valueOf(LocalDate.now()), null, java.sql.Date.valueOf(LocalDate.now()), "a:1:{i:0;s:10:\"ROLE_PUPILS\";}");
+            new ServicesFOS().ajouterUser(u);
+            p.setId_user(new ServicesFOS().getUserByUsername(u.getUserName()).getId());
+
+            ParentService sl = new ParentService();
+            int pupilId = sl.getPupilId(pupilname);
+            System.out.println(pupilId);
+            sl.addParent(p);
+            int idm=new ParentService().getParentByUsername(name, mail).getId();
+            System.out.println(idm+"llllllllll");
+            new ServicesPupils().updatePupilsP(pupilId, idm);
+            AfficherAllP();
+
+        }
+    }
+    */
     @FXML
-    private void addTeacher(ActionEvent event) {
+    private void addTeacher(ActionEvent event) throws SQLException {
+        String name = tfNameT.getText();
+        String mail = tfMail.getText();
+        String phone = tfPhone.getText();
+        String specialty = tfSpec.getText();
+        String password = tfPassword.getText();
+        Teacher t = new Teacher(name, mail, password, phone, specialty);
+        FOSUser u = new FOSUser(name, name, mail, mail, (byte) 1, null, name, java.sql.Date.valueOf(LocalDate.now()), null, java.sql.Date.valueOf(LocalDate.now()), "a:1:{i:0;s:10:\"ROLE_PARENT\";}");
+        new ServicesFOS().ajouterUser(u);
+        t.setId_user(new ServicesFOS().getUserByUsername(u.getUserName()).getId());
+        ServicesTeacher s1 = new ServicesTeacher();
+        s1.addTeacher(t);
+        AfficherAllT();
+    }
+/* @FXML
+    private void updateCourse(ActionEvent event) throws SQLException {
+
+        annonceServiceC = new CourseService();
+        Course aa = tvCourses.getSelectionModel().getSelectedItem();
+        System.out.println(aa.getId() + "551");
+        int idc = aa.getId();
+        //String subjec = tfus.getText();
+        String subjec = cbox.getSelectionModel().getSelectedItem();
+        String conten = tfuc.getText();
+        String teache = tfut.getText();
+        Course a = new Course(idc, subjec, conten, teache);
+        annonceServiceC.updateCourse(a);
+        try {
+            Connection con = (Connection) MyConnection.getInstance().getCnx();
+
+            ResultSet rs = con.createStatement().executeQuery("select * from course");
+            while (rs.next()) {
+                oblistC.add(new Course(rs.getInt("id"), rs.getString("subject"), rs.getString("content"), rs.getString("teacher")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeBinderController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tvCourses.setItems(oblistC);
+
+        showAll();
+
+    }*/
+    @FXML
+    private void updateTeacher(ActionEvent event) throws SQLException {
+        St = new ServicesTeacher();
+        Teacher t = tabT.getSelectionModel().getSelectedItem();
+        int id = t.getIdTeacher();
+        String name = tfNameT.getText();
+        String mail = tfMail.getText();
+        String password = tfPassword.getText();
+        String specialty = tfSpec.getText();
+        ServicesTeacher s1 = new ServicesTeacher();
+        Teacher te = new Teacher(name, mail, password, name, specialty);
+        ServicesTeacher s2 = new ServicesTeacher();
+        ServicesTeacher s3 = new ServicesTeacher(); 
+        
+        s3.deleteTeachermodified(id);
+        s2.addTeachermodify(te);
+        AfficherAllT();
+       
     }
 
     @FXML
-    private void updateTeacher(ActionEvent event) {
-    }
-
-    @FXML
-    private void deleteTeacher(ActionEvent event) {
+    private void deleteTeacher(ActionEvent event) throws SQLException {
+         St = new ServicesTeacher();
+        int index = tabT.getSelectionModel().getSelectedItem().getIdTeacher();
+        St.deleteTeacher(index);
+        new ServicesFOS().deleteUser(index);
+        actualiserTableT();
     }
 
     @FXML
     private void btGoToTeacherOnClick(ActionEvent event) {
+                anchorHome.setVisible(false);
+        anchorClassGestion.setVisible(false);
+        listexams.setVisible(false);
+        listgrades.setVisible(false);
+        CID.setVisible(false);
+        AID.setVisible(false);
+        PID.setVisible(false);
+         anchorChour.setVisible(false);
+        anchorSubject.setVisible(false);
+        anchorAb.setVisible(false);
+        anchorNotif.setVisible(false);
+        anchorTeacher.setVisible(true);
+    }
+
+    @FXML
+    private void searchTeacher(ActionEvent event) {
     }
 }
